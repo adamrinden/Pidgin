@@ -1,0 +1,14 @@
+Prerequisite:
+	Perk Level
+	Quest Items
+	Currency
+	Time of day
+
+Timed Interactions
+
+
+keywords:
+
+npc
+greeting
+choice

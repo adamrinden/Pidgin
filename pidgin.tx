@@ -1,0 +1,78 @@
+NPCDefinition:
+	'npc' '{' 
+		name=Name
+		entry=Entry
+		dialogueBlocks+=DialogueBlock
+	'}'
+;
+
+Entry:
+	'entry' entry=ID 
+;
+
+Name:
+	'name' npcName=STRING
+;
+
+DialogueBlock:
+	'dialogue' id=ID '{'
+		dialogueCommands*=DialogueCommand
+		(dialogueEnding=DialogueEnding)?
+	'}'
+;
+
+DialogueEnding:
+	Choices | Continue
+;
+
+Choices:
+	(choiceBlocks+=ChoiceBlock)
+;
+
+ChoiceBlock:
+	'choice' text=STRING '{'
+		dialogueCommands*=DialogueCommand
+		(cont=Continuation)?
+	'}'
+;
+
+Continuation:
+	ConditionalContinue | Continue
+;
+
+ConditionalContinue:
+	'if' conditional=Conditional '{'
+		success=Continue
+	'}'
+	'else' '{'
+		fail=Continue
+	'}'
+;
+
+Conditional:
+	'gold' operator=ComparisonOperator value=INT
+;
+
+ComparisonOperator:
+	'>=' | '<=' | '>' | '<' | '=='
+;
+
+DialogueCommand:
+	Say | Action
+;
+
+Continue:
+	'continue' id=ID
+;
+
+Say:
+	'say' sentence=STRING
+;
+
+Action:
+	'action' action=ID
+;
+
+Comment:
+	/#.*$/
+;

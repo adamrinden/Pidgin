@@ -1,0 +1,69 @@
+npc {
+	name "Odgrub" #npc name
+	entry intro
+	
+	# Comments work! also
+	dialogue intro {
+		say "Hello player.name!"
+		continue initialChoices
+	}
+		
+	dialogue initialChoices {
+		choice "What do you have for sale? Gold: player.gold" {
+			say "Here, have a look."
+			action buy_items
+			continue initialChoices
+		}
+		choice "Tell me about this town." {
+			continue town_info
+		}
+		choice "Goodbye." {
+			continue leave
+		}
+	}
+
+	dialogue town_info {
+		say "What would you like to know about?"
+		choice "Tell me about the town butcher." {
+			say "Old Leonardo has been this town's butcher for 50 years now."
+			say "He's getting up there in age though, so he's teaching his son the ropes."
+			say "It will be a great loss when he passes."
+			continue town_info
+		}
+		choice "Tell me about the town alchemist." {
+			say "Merlin's been making dangerous concoctions."
+			say "I would stay away from him if you value your life."
+			continue town_info
+		}
+		choice "Bribe for more info. (25 Gold)" {
+			if gold >= 25 {
+				continue secret
+			} 
+			else {
+				continue secret_fail
+			}
+		}
+
+		choice "Let's talk about something else." {
+			say "Alright."
+			continue initialChoices
+		}
+		choice "Goodbye" {
+			continue leave
+		}
+	}
+
+	dialogue secret_fail {
+		say "Try getting some more gold and I might remember something!"
+		continue town_info
+	}
+
+	dialogue secret {
+		say "I heard there's a small fortune barried by the shed, but you didn't hear it from me!"
+		continue town_info
+	}
+	
+	dialogue leave {
+		say "Safe travels!"
+	}
+}
