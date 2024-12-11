@@ -1,18 +1,16 @@
 npc {
-	name "Odgrub" #npc name
+	name "Odgrub"	#npc name
 	entry intro
 	
-	# Comments work! also
 	dialogue intro {
 		say "Hello player.name!"
 		continue initialChoices
 	}
-		
+	
+	# Dialogue blocks with unique ids determine what dialogue options are available
 	dialogue initialChoices {
-		choice "What do you have for sale? Gold: player.gold" {
-			say "Here, have a look."
-			action buy_items
-			continue initialChoices
+		choice "What do you have for sale?" {
+			continue shop	# The continue keyword is like a goto, telling the interpreter which dialogue box to go to next
 		}
 		choice "Tell me about this town." {
 			continue town_info
@@ -22,8 +20,47 @@ npc {
 		}
 	}
 
+	dialogue shop {
+		say "Here, have a look. (player.gold)"
+		choice "Great Sword (50 Gold)" {
+			if gold >= 50 {		# Interpreter can handle simple conditionals
+				continue shop_sucess
+			} else {
+				continue shop_fail
+			}
+		}
+		choice "Dwarven Dagger (100 Gold)" {
+			if gold >= 100 {
+				continue shop_sucess
+			} else {
+				continue shop_fail
+			}
+		}
+		choice "Sweet Roll (10 Gold)" {
+			if gold >= 10 {
+				continue shop_sucess
+			} else {
+				continue shop_fail
+			}
+		}
+		choice "I change my mind." {
+			continue initialChoices
+		}
+	}
+
+	dialogue shop_sucess {
+		say "Good doing business with you, player.name."
+		continue shop
+	}
+
+	dialogue shop_fail {
+		say "Try getting some more gold first!"
+		continue shop
+	}
+
 	dialogue town_info {
 		say "What would you like to know about?"
+
 		choice "Tell me about the town butcher." {
 			say "Old Leonardo has been this town's butcher for 50 years now."
 			say "He's getting up there in age though, so he's teaching his son the ropes."
@@ -38,19 +75,19 @@ npc {
 		choice "Bribe for more info. (25 Gold)" {
 			if gold >= 25 {
 				continue secret
-			} 
-			else {
+			} else {
 				continue secret_fail
 			}
 		}
-
 		choice "Let's talk about something else." {
 			say "Alright."
 			continue initialChoices
 		}
-		choice "Goodbye" {
-			continue leave
-		}
+	}
+
+	dialogue secret {
+		say "I heard there's a small fortune barried by the town well, but you didn't hear it from me!"
+		continue town_info
 	}
 
 	dialogue secret_fail {
@@ -58,11 +95,6 @@ npc {
 		continue town_info
 	}
 
-	dialogue secret {
-		say "I heard there's a small fortune barried by the shed, but you didn't hear it from me!"
-		continue town_info
-	}
-	
 	dialogue leave {
 		say "Safe travels!"
 	}
