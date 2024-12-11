@@ -11,7 +11,7 @@
 	<div class="container">
 		<div class="row d-flex justify-content-center text-center">
 			<h1>Pidgin</h1>
-			<p>A Domain-Specific Language that streamlines player to NPC dialogue in Role-play like games.</p>
+			<p>A Domain-Specific Language that streamlines player to NPC dialogue creation in Role-playing games.</p>
 			<div class="btn-group w-50" role="group" aria-label="Links to source and download">
 				<a href="https://github.com/adamrinden/Pidgin" class="btn btn-primary btn-lg">Source Code</a>
 				<a href="https://github.com/adamrinden/Pidgin" class="btn btn-outline-primary btn-lg">Download</a>
@@ -27,7 +27,7 @@ npc {
 	entry intro
 	
 	dialogue intro {
-		say "Hello player.name!"
+		say "Hello, player.name!"
 		continue initialChoices
 	}
 	
@@ -45,24 +45,24 @@ npc {
 	}
 
 	dialogue shop {
-		say "Here, have a look. (player.gold)"
+		say "Here, have a look. (Current Gold: player.gold)"
 		choice "Great Sword (50 Gold)" {
 			if gold >= 50 {		# Interpreter can handle simple conditionals
-				continue shop_sucess
+				continue shop_sucess_sword
 			} else {
 				continue shop_fail
 			}
 		}
 		choice "Dwarven Dagger (100 Gold)" {
 			if gold >= 100 {
-				continue shop_sucess
+				continue shop_sucess_dagger
 			} else {
 				continue shop_fail
 			}
 		}
 		choice "Sweet Roll (10 Gold)" {
 			if gold >= 10 {
-				continue shop_sucess
+				continue shop_sucess_sweetroll
 			} else {
 				continue shop_fail
 			}
@@ -72,7 +72,20 @@ npc {
 		}
 	}
 
-	dialogue shop_sucess {
+	dialogue shop_sucess_sword {
+		update gold -50
+		say "Good doing business with you, player.name."
+		continue shop
+	}
+
+	dialogue shop_sucess_dagger {
+		update gold -100
+		say "Good doing business with you, player.name."
+		continue shop
+	}
+
+	dialogue shop_sucess_sweetroll {
+		update gold -10
 		say "Good doing business with you, player.name."
 		continue shop
 	}
@@ -110,7 +123,8 @@ npc {
 	}
 
 	dialogue secret {
-		say "I heard there's a small fortune barried by the town well, but you didn't hear it from me!"
+		update gold -25
+		say "I heard there's a small fortune buried by the town well, but you didn't hear it from me!"
 		continue town_info
 	}
 
