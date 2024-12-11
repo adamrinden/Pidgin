@@ -1,0 +1,28 @@
+npc {
+	name "Dominic"
+	entry intro
+
+	dialogue intro {
+		say "Welcome to class, player.name!"
+		continue initialChoices
+	}
+
+	dialogue initialChoices {
+		say "Tell me player.name, what is an int?"
+		choice "A variable type that represents a whole number." {
+			continue pass_int
+		}
+		choice "It is shorthand for interrupt."{
+			continue fail_int
+		}
+	}
+
+	dialogue pass_int {
+		say "Correct, A for the day!"
+	}
+
+	dialogue fail_int {
+		say "Wrong, try again!"
+		continue initialChoices
+	}
+}
