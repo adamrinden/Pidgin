@@ -58,7 +58,11 @@ ComparisonOperator:
 ;
 
 DialogueCommand:
-	Say | Action
+	Say | Action | Update
+;
+
+Update:
+	'update' 'gold' value=INT 
 ;
 
 Continue:
