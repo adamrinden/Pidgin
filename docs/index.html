@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<title>Pidgin</title>
+</head>
+<body>
+	<div class="container">
+		<div class="row d-flex justify-content-center text-center">
+			<h1>Pidgin</h1>
+			<p>A Domain-Specific Language that streamlines player to NPC dialogue in Role-play like games.</p>
+			<div class="btn-group w-50" role="group" aria-label="Links to source and download">
+				<a href="https://github.com/adamrinden/Pidgin" class="btn btn-primary btn-lg">Source Code</a>
+				<a href="https://github.com/adamrinden/Pidgin" class="btn btn-outline-primary btn-lg">Download</a>
+			</div>
+			
+		</div>
+		<div class="row">
+			<h3>Code Example:</h3>
+			<code class="bg-light text-dark">
+				<pre>
+npc {
+	name "Odgrub"	#npc name
+	entry intro
+	
+	dialogue intro {
+		say "Hello player.name!"
+		continue initialChoices
+	}
+	
+	# Dialogue blocks with unique ids determine what dialogue options are available
+	dialogue initialChoices {
+		choice "What do you have for sale?" {
+			continue shop	# The continue keyword is like a goto, telling the interpreter which dialogue box to go to next
+		}
+		choice "Tell me about this town." {
+			continue town_info
+		}
+		choice "Goodbye." {
+			continue leave
+		}
+	}
+
+	dialogue shop {
+		say "Here, have a look. (player.gold)"
+		choice "Great Sword (50 Gold)" {
+			if gold >= 50 {		# Interpreter can handle simple conditionals
+				continue shop_sucess
+			} else {
+				continue shop_fail
+			}
+		}
+		choice "Dwarven Dagger (100 Gold)" {
+			if gold >= 100 {
+				continue shop_sucess
+			} else {
+				continue shop_fail
+			}
+		}
+		choice "Sweet Roll (10 Gold)" {
+			if gold >= 10 {
+				continue shop_sucess
+			} else {
+				continue shop_fail
+			}
+		}
+		choice "I change my mind." {
+			continue initialChoices
+		}
+	}
+
+	dialogue shop_sucess {
+		say "Good doing business with you, player.name."
+		continue shop
+	}
+
+	dialogue shop_fail {
+		say "Try getting some more gold first!"
+		continue shop
+	}
+
+	dialogue town_info {
+		say "What would you like to know about?"
+
+		choice "Tell me about the town butcher." {
+			say "Old Leonardo has been this town's butcher for 50 years now."
+			say "He's getting up there in age though, so he's teaching his son the ropes."
+			say "It will be a great loss when he passes."
+			continue town_info
+		}
+		choice "Tell me about the town alchemist." {
+			say "Merlin's been making dangerous concoctions."
+			say "I would stay away from him if you value your life."
+			continue town_info
+		}
+		choice "Bribe for more info. (25 Gold)" {
+			if gold >= 25 {
+				continue secret
+			} else {
+				continue secret_fail
+			}
+		}
+		choice "Let's talk about something else." {
+			say "Alright."
+			continue initialChoices
+		}
+	}
+
+	dialogue secret {
+		say "I heard there's a small fortune barried by the town well, but you didn't hear it from me!"
+		continue town_info
+	}
+
+	dialogue secret_fail {
+		say "Try getting some more gold and I might remember something!"
+		continue town_info
+	}
+
+	dialogue leave {
+		say "Safe travels!"
+	}
+}
+				</pre>
+			</code>
+		</div>
+	</div>
+
+	
+</body>
+</html>
